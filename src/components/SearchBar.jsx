@@ -1,3 +1,5 @@
+import { FiSearch } from 'react-icons/fi';
+
 function SearchBar({ searchQuery, setSearchQuery, onSearch, loading }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,7 +20,8 @@ function SearchBar({ searchQuery, setSearchQuery, onSearch, loading }) {
         autoComplete="street-address"
       />
       <button type="submit" disabled={loading || !searchQuery.trim()}>
-        Search
+        <FiSearch aria-hidden="true" />
+        {loading ? 'Searching…' : 'Find surveyors'}
       </button>
     </form>
   );
