@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Sidebar from './components/Sidebar';
 import SearchBar from './components/SearchBar';
+import ScheduleFilters from './components/ScheduleFilters';
 import SurveyorCard from './components/SurveyorCard';
 import AddSurveyorModal from './components/modals/AddSurveyorModal';
 import EditSurveyorModal from './components/modals/EditSurveyorModal';
@@ -14,6 +15,8 @@ function App() {
   const [allSurveyors, setAllSurveyors] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedDay, setSelectedDay] = useState('all');
+  const [selectedShift, setSelectedShift] = useState('all');
   const [loading, setLoading] = useState(false);
   const [listLoading, setListLoading] = useState(true);
   const [error, setError] = useState('');
@@ -147,6 +150,18 @@ function App() {
     }
   };
 
+  const filteredResults = searchResults.filter((surveyor) => {
+    if (selectedDay !== 'all') {
+      const days = surveyor.availableDays || [];
+      if (!days.includes(selectedDay)) return false;
+    }
+    if (selectedShift !== 'all') {
+      const slots = surveyor.timeSlots || [];
+      if (!slots.includes(selectedShift)) return false;
+    }
+    return true;
+  });
+
   return (
     <div className="app-shell">
       {sidebarOpen && (
@@ -221,19 +236,47 @@ function App() {
 
           {!loading && searchResults.length > 0 && (
             <section className="results" aria-live="polite">
-              <p className="results-count">
-                Found {searchResults.length} surveyors near {searchQuery.trim()}
-              </p>
-              <div className="card-grid">
-                {searchResults.map((surveyor, index) => (
-                  <SurveyorCard
-                    key={surveyor._id}
-                    surveyor={surveyor}
-                    isNearest={index === 0}
-                    onSelect={() => setSelectedId(surveyor._id)}
-                  />
-                ))}
+              <div className="results-header">
+                <p className="results-count">
+                  Found {searchResults.length} surveyors near {searchQuery.trim()}
+                </p>
+
+                <ScheduleFilters
+                  selectedDay={selectedDay}
+                  onSelectDay={setSelectedDay}
+                  selectedShift={selectedShift}
+                  onSelectShift={setSelectedShift}
+                  totalResults={searchResults.length}
+                  filteredCount={filteredResults.length}
+                />
               </div>
+
+              {filteredResults.length === 0 ? (
+                <div className="empty-state">
+                  <p>No surveyors match the selected schedule filter ({selectedDay !== 'all' ? selectedDay : ''} {selectedShift !== 'all' ? selectedShift : ''}).</p>
+                  <button
+                    type="button"
+                    className="reset-filter-btn"
+                    onClick={() => {
+                      setSelectedDay('all');
+                      setSelectedShift('all');
+                    }}
+                  >
+                    Reset filters to view all {searchResults.length} surveyors
+                  </button>
+                </div>
+              ) : (
+                <div className="card-grid">
+                  {filteredResults.map((surveyor, index) => (
+                    <SurveyorCard
+                      key={surveyor._id}
+                      surveyor={surveyor}
+                      isNearest={index === 0 && selectedDay === 'all' && selectedShift === 'all'}
+                      onSelect={() => setSelectedId(surveyor._id)}
+                    />
+                  ))}
+                </div>
+              )}
             </section>
           )}
         </div>

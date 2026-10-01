@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AddressLocationField from './AddressLocationField';
+import SchedulePicker from './SchedulePicker';
 
 const emptyForm = {
   name: '',
@@ -12,6 +13,14 @@ const emptyForm = {
 function AddSurveyorModal({ onClose, onSubmit, saving, error }) {
   const [form, setForm] = useState(emptyForm);
   const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [availableDays, setAvailableDays] = useState([
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+  ]);
+  const [timeSlots, setTimeSlots] = useState(['Morning', 'Evening']);
 
   const updateField = (field) => (event) => {
     const value =
@@ -29,6 +38,8 @@ function AddSurveyorModal({ onClose, onSubmit, saving, error }) {
         .split(',')
         .map((area) => area.trim())
         .filter(Boolean),
+      availableDays,
+      timeSlots,
       isAvailable: form.isAvailable,
     };
 
@@ -76,8 +87,16 @@ function AddSurveyorModal({ onClose, onSubmit, saving, error }) {
               placeholder="Whitechapel, Aldgate, E1"
             />
           </label>
+
+          <SchedulePicker
+            selectedDays={availableDays}
+            onChangeDays={setAvailableDays}
+            selectedSlots={timeSlots}
+            onChangeSlots={setTimeSlots}
+          />
+
           <label className="toggle-row">
-            <span>Available</span>
+            <span>Currently Active</span>
             <input
               type="checkbox"
               checked={form.isAvailable}

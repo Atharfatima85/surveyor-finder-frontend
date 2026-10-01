@@ -16,7 +16,7 @@ function SearchBar({ searchQuery, setSearchQuery, onSearch, loading }) {
         type="text"
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value)}
-        placeholder="Enter area or address (e.g. Whitechapel, London)"
+        placeholder="Enter UK postcode or address (e.g. SW1A 1AA, SE1 1TQ, Whitechapel)"
         autoComplete="street-address"
       />
       <button type="submit" disabled={loading || !searchQuery.trim()}>

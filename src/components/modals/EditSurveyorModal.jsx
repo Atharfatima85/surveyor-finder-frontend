@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AddressLocationField from './AddressLocationField';
+import SchedulePicker from './SchedulePicker';
 
 function EditSurveyorModal({ surveyor, onClose, onSubmit, saving, error }) {
   const [form, setForm] = useState({
@@ -13,6 +14,16 @@ function EditSurveyorModal({ surveyor, onClose, onSubmit, saving, error }) {
     latitude: surveyor.latitude ?? null,
     longitude: surveyor.longitude ?? null,
   });
+  const [availableDays, setAvailableDays] = useState(
+    Array.isArray(surveyor.availableDays) && surveyor.availableDays.length > 0
+      ? surveyor.availableDays
+      : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+  );
+  const [timeSlots, setTimeSlots] = useState(
+    Array.isArray(surveyor.timeSlots) && surveyor.timeSlots.length > 0
+      ? surveyor.timeSlots
+      : ['Morning', 'Evening']
+  );
 
   const updateField = (field) => (event) => {
     const value =
@@ -30,6 +41,8 @@ function EditSurveyorModal({ surveyor, onClose, onSubmit, saving, error }) {
         .split(',')
         .map((area) => area.trim())
         .filter(Boolean),
+      availableDays,
+      timeSlots,
       isAvailable: form.isAvailable,
     };
 
@@ -77,8 +90,16 @@ function EditSurveyorModal({ surveyor, onClose, onSubmit, saving, error }) {
               placeholder="Whitechapel, Aldgate, E1"
             />
           </label>
+
+          <SchedulePicker
+            selectedDays={availableDays}
+            onChangeDays={setAvailableDays}
+            selectedSlots={timeSlots}
+            onChangeSlots={setTimeSlots}
+          />
+
           <label className="toggle-row">
-            <span>Available</span>
+            <span>Currently Active</span>
             <input
               type="checkbox"
               checked={form.isAvailable}

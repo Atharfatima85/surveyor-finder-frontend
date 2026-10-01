@@ -314,35 +314,185 @@
 .surveyor-card {
   position: relative;
   background: #ffffff;
-  border: 1px solid #e8ece9;
-  border-radius: 16px;
-  padding: 1.25rem 1.2rem 1.15rem;
-  box-shadow: 0 10px 28px rgba(16, 32, 22, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  border: 1px solid #e2ebe4;
+  border-radius: 18px;
+  padding: 1.25rem 1.2rem;
+  box-shadow: 0 10px 28px rgba(16, 32, 22, 0.05);
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
 .surveyor-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px rgba(16, 32, 22, 0.1);
+  box-shadow: 0 14px 34px rgba(16, 32, 22, 0.09);
+  border-color: #81c784;
 }
 
 .surveyor-card.nearest {
-  background: #e8f5e9;
-  border: 1px solid #81c784;
+  background: #fbfdfb;
+  border: 2px solid #66bb6a;
+  box-shadow: 0 12px 32px rgba(46, 125, 50, 0.12);
 }
 
-.card-badges {
-  position: absolute;
-  top: 0.95rem;
-  right: 0.95rem;
+.card-layout {
+  display: flex;
+  gap: 1.15rem;
+  align-items: stretch;
+}
+
+/* Left Column: Rotating Green Circle & Postcode Journey */
+.card-left-col {
+  width: 130px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 0.3rem;
+  align-items: center;
+  border-right: 1px solid #edf2ee;
+  padding-right: 1rem;
+}
+
+.rotating-circle-wrapper {
+  position: relative;
+  width: 82px;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.2rem 0 0.65rem;
+}
+
+/* Outer Spinning Ring */
+.spinning-outer-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2.8px dashed #2e7d32;
+  box-shadow: 0 0 14px rgba(46, 125, 50, 0.15);
+  animation: spinOuterRing 8s linear infinite;
+}
+
+@keyframes spinOuterRing {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Inner Green Core with Distance */
+.circle-inner-core {
+  position: relative;
+  z-index: 2;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border: 1px solid #a5d6a7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.circle-dist-val {
+  font-size: 1.12rem;
+  font-weight: 850;
+  color: #1b5e20;
+  line-height: 1;
+}
+
+.circle-dist-unit {
+  font-size: 0.62rem;
+  font-weight: 750;
+  color: #2e7d32;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+/* Postcode Distance Comparison Box */
+.postcode-comparison-box {
+  width: 100%;
+  background: #f7faf8;
+  border: 1px solid #dce8dd;
+  border-radius: 10px;
+  padding: 0.45rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.postcode-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.postcode-tag-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #5d6f61;
+}
+
+.postcode-tag-code {
+  font-size: 11px;
+  font-weight: 750;
+  color: #1b5e20;
+  background: #ffffff;
+  border: 1px solid #c8d8cb;
+  border-radius: 6px;
+  padding: 0.12rem 0.35rem;
+  margin-top: 1px;
+  width: 95%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postcode-arrow-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  color: #2e7d32;
+  font-size: 11px;
+  margin: 1px 0;
+}
+
+.postcode-arrow-icon {
+  transform: rotate(90deg);
+  line-height: 1;
+  font-weight: bold;
+}
+
+.postcode-duration-badge {
+  font-size: 9.5px;
+  font-weight: 650;
+  color: #436248;
+  white-space: nowrap;
+}
+
+/* Right Column: Surveyor Info */
+.card-right-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.card-badges-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
 }
 
 .nearest-badge,
@@ -350,7 +500,7 @@
   display: inline-flex;
   font-size: 0.7rem;
   font-weight: 700;
-  padding: 0.24rem 0.5rem;
+  padding: 0.22rem 0.5rem;
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -366,25 +516,11 @@
   color: #8a3a3a;
 }
 
-.card-distance {
-  margin: 0 5.5rem 0 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: #2e7d32;
-  line-height: 1.15;
-}
-
-.card-duration {
+.card-surveyor-name {
   margin: 0;
-  color: #4d6754;
-  font-weight: 550;
-  font-size: 15px;
-}
-
-.surveyor-card h3 {
-  margin: 0.35rem 0 0.1rem;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 750;
+  color: #1a1a1a;
 }
 
 .card-phone,
@@ -394,7 +530,7 @@
   gap: 0.45rem;
   margin: 0;
   color: #3d4a44;
-  font-size: 15px;
+  font-size: 14.5px;
 }
 
 .card-phone {
@@ -413,7 +549,7 @@
   flex-wrap: wrap;
   gap: 0.35rem;
   list-style: none;
-  margin: 0.4rem 0 0;
+  margin: 0.25rem 0 0;
   padding: 0;
 }
 
@@ -421,9 +557,30 @@
   background: #e8f5e9;
   color: #1a5c2e;
   border-radius: 999px;
-  padding: 0.2rem 0.55rem;
-  font-size: 0.75rem;
+  padding: 0.18rem 0.5rem;
+  font-size: 0.74rem;
   font-weight: 600;
+}
+
+@media (max-width: 520px) {
+  .card-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-left-col {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid #edf2ee;
+    padding-right: 0;
+    padding-bottom: 0.85rem;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .postcode-comparison-box {
+    max-width: 180px;
+  }
 }
 
 .modal-backdrop {
@@ -620,6 +777,336 @@
 .view-details a {
   color: #2e7d32;
   font-weight: 600;
+}
+
+/* Schedule Picker (Modals) */
+.schedule-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: #f8faf8;
+  border: 1px solid #dce4de;
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.schedule-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.schedule-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #2b392e;
+}
+
+.schedule-shortcuts {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.shortcut-btn {
+  border: 1px solid #c9d8cc;
+  background: #ffffff;
+  color: #2e7d32;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.shortcut-btn:hover {
+  background: #e8f5e9;
+  border-color: #81c784;
+}
+
+.shortcut-btn.danger {
+  color: #c62828;
+  border-color: #ef9a9a;
+}
+
+.shortcut-btn.danger:hover {
+  background: #ffebee;
+}
+
+.pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.pill-btn {
+  border: 1px solid #d0ded2;
+  background: #ffffff;
+  color: #3b473e;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pill-btn:hover {
+  border-color: #2e7d32;
+  color: #2e7d32;
+  background: #f0f7f0;
+}
+
+.pill-btn.active {
+  background: #2e7d32;
+  border-color: #2e7d32;
+  color: #ffffff;
+}
+
+.slot-pill {
+  padding: 0.45rem 0.8rem;
+}
+
+.slot-icon {
+  font-size: 0.95rem;
+}
+
+/* View Surveyor Modal Schedule Chips */
+.days-chip-list,
+.slots-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.day-chip {
+  background: #f0f7f0;
+  color: #256428;
+  border: 1px solid #c8e6c9;
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.slot-chip {
+  background: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #a5d6a7;
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Surveyor Card Schedule Info */
+.card-schedule-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.3rem 0;
+  padding: 0.5rem 0.65rem;
+  background: #fbfdfb;
+  border: 1px solid #eaf0eb;
+  border-radius: 10px;
+}
+
+.card-schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 13px;
+  color: #3b473e;
+}
+
+.schedule-icon {
+  color: #2e7d32;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.schedule-text {
+  font-weight: 600;
+}
+
+.card-slot-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.card-slot-badge {
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-size: 11.5px;
+  font-weight: 650;
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Sidebar Item Top & Schedule */
+.sidebar-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.available {
+  background: #2e7d32;
+  box-shadow: 0 0 0 2px #c8e6c9;
+}
+
+.status-dot.unavailable {
+  background: #9e9e9e;
+}
+
+.sidebar-schedule-badge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 11.5px;
+  color: #555555;
+  margin: -0.3rem 0 0.45rem;
+}
+
+/* Schedule Filters Bar */
+.results-header {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.schedule-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #f8faf8;
+  border: 1px solid #dce8dd;
+  border-radius: 12px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.filter-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-icon {
+  position: absolute;
+  left: 0.65rem;
+  color: #2e7d32;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  color: #2a382d;
+  background: #ffffff;
+  border: 1px solid #cfdcd0;
+  border-radius: 8px;
+  padding: 0.45rem 1.6rem 0.45rem 1.85rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%232e7d32' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+}
+
+.filter-select:focus {
+  outline: 2px solid #2e7d3233;
+  border-color: #2e7d32;
+}
+
+.clear-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid #ffcdd2;
+  background: #ffebee;
+  color: #c62828;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0.38rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.clear-filters-btn:hover {
+  background: #ffcdd2;
+}
+
+.filter-match-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.reset-filter-btn {
+  margin-top: 0.75rem;
+  border: 1px solid #2e7d32;
+  background: #f0f7f0;
+  color: #2e7d32;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reset-filter-btn:hover {
+  background: #2e7d32;
+  color: #ffffff;
 }
 
 .sidebar-backdrop {
