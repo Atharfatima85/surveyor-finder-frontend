@@ -47,7 +47,6 @@ function SurveyorCard({ surveyor, isNearest, onSelect }) {
     name,
     phone,
     address,
-    areas = [],
     isAvailable,
     availableDays = [],
     timeSlots = [],
@@ -146,14 +145,6 @@ function SurveyorCard({ surveyor, isNearest, onSelect }) {
               </div>
             )}
           </div>
-
-          {areas.length > 0 && (
-            <ul className="card-areas">
-              {areas.map((area) => (
-                <li key={area}>{area}</li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
     </article>
