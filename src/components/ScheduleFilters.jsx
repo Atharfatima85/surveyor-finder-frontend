@@ -3,9 +3,9 @@ import { ALL_DAYS } from '../constants/schedule';
 
 const SHIFT_OPTIONS = [
   { value: 'all', label: 'All Shifts' },
-  { value: 'Morning', label: '🌅 Morning' },
-  { value: 'Afternoon', label: '☀️ Afternoon' },
-  { value: 'Evening', label: '🌙 Evening' },
+  { value: 'Morning', label: 'Morning' },
+  { value: 'Afternoon', label: 'Afternoon' },
+  { value: 'Evening', label: 'Evening' },
 ];
 
 function ScheduleFilters({

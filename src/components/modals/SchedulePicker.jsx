@@ -91,7 +91,6 @@ function SchedulePicker({
                 onClick={() => toggleSlot(slot.id)}
                 aria-pressed={isSelected}
               >
-                <span className="slot-icon" aria-hidden="true">{slot.icon}</span>
                 <span>{slot.label}</span>
               </button>
             );

@@ -150,6 +150,27 @@ function App() {
     }
   };
 
+  const handleToggleActive = async (surveyor) => {
+    try {
+      const nextStatus = !surveyor.isAvailable;
+      await axios.put(`${API_URL}/api/surveyors/${surveyor._id}`, {
+        isAvailable: nextStatus,
+      });
+      await fetchSurveyors();
+      if (!nextStatus) {
+        setSearchResults((current) =>
+          current.filter((item) => item._id !== surveyor._id)
+        );
+      } else if (hasSearched && searchQuery.trim()) {
+        handleSearch();
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message || 'Could not update surveyor availability.'
+      );
+    }
+  };
+
   const filteredResults = searchResults.filter((surveyor) => {
     if (selectedDay !== 'all') {
       const days = surveyor.availableDays || [];
@@ -185,6 +206,7 @@ function App() {
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onToggleActive={handleToggleActive}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />

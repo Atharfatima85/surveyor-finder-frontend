@@ -7,6 +7,7 @@ function Sidebar({
   onView,
   onEdit,
   onDelete,
+  onToggleActive,
   open,
   onClose,
 }) {
@@ -50,10 +51,21 @@ function Sidebar({
               </div>
               <p className="sidebar-phone">{surveyor.phone}</p>
               <div className="sidebar-schedule-badge">
-                <span>🗓️ {daysCount} {daysCount === 1 ? 'day' : 'days'}/wk</span>
+                <span>{daysCount} {daysCount === 1 ? 'day' : 'days'}/wk</span>
                 {slots.length > 0 && <span>• {slots.join(', ')}</span>}
               </div>
               <div className="sidebar-actions">
+                <button
+                  type="button"
+                  className={`btn-toggle-status ${surveyor.isAvailable ? 'btn-active' : 'btn-inactive'}`}
+                  title={surveyor.isAvailable ? 'Click to deactivate' : 'Click to activate'}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onToggleActive(surveyor);
+                  }}
+                >
+                  {surveyor.isAvailable ? 'Active' : 'Inactive'}
+                </button>
                 <button
                   type="button"
                   className="btn-view"

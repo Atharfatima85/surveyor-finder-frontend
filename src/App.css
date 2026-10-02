@@ -106,7 +106,10 @@
 
 .sidebar-actions {
   display: flex;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
 }
 
 .sidebar-actions button {
@@ -118,6 +121,41 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   cursor: pointer;
+}
+
+.btn-toggle-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  padding: 0.2rem 0.55rem !important;
+  border-radius: 6px;
+  line-height: 1.2;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.btn-toggle-status.btn-active {
+  color: #1b5e20 !important;
+  background: #e8f5e9 !important;
+  border: 1px solid #c8e6c9 !important;
+}
+
+.btn-toggle-status.btn-active:hover {
+  background: #c8e6c9 !important;
+  text-decoration: none !important;
+}
+
+.btn-toggle-status.btn-inactive {
+  color: #b71c1c !important;
+  background: #ffebee !important;
+  border: 1px solid #ffcdd2 !important;
+}
+
+.btn-toggle-status.btn-inactive:hover {
+  background: #ffcdd2 !important;
+  text-decoration: none !important;
 }
 
 .btn-view {
@@ -347,7 +385,8 @@
   height: 100%;
 }
 
-/* Left Column: Rotating Green Circle & Postcode Journey */
+/* Right Column: Rotating Green Circle & Postcode Journey */
+.card-side-col,
 .card-left-col {
   width: 148px;
   flex-shrink: 0;
@@ -355,8 +394,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  border-right: 1px solid #edf2ee;
-  padding-right: 1.1rem;
+  border-left: 1px solid #edf2ee;
+  padding-left: 1.1rem;
 }
 
 .rotating-circle-wrapper {
@@ -491,13 +530,14 @@
   padding: 0.15rem 0.45rem;
 }
 
-/* Right Column: Surveyor Info */
+/* Left Column: Surveyor Details */
+.card-main-col,
 .card-right-col {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.42rem;
+  gap: 0.5rem;
 }
 
 .card-badges-inline {
@@ -590,12 +630,16 @@
     align-items: stretch;
   }
 
+  .card-side-col,
   .card-left-col {
     width: 100%;
+    border-left: 0;
     border-right: 0;
-    border-bottom: 1px solid #edf2ee;
+    border-top: 1px solid #edf2ee;
+    padding-left: 0;
     padding-right: 0;
-    padding-bottom: 0.85rem;
+    padding-top: 0.85rem;
+    padding-bottom: 0.25rem;
     flex-direction: row;
     justify-content: space-around;
   }

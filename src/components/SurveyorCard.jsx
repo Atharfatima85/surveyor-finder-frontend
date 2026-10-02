@@ -1,10 +1,4 @@
-import { FiMapPin, FiPhone, FiCalendar, FiClock } from 'react-icons/fi';
-
-const SLOT_ICONS = {
-  Morning: '🌅',
-  Afternoon: '☀️',
-  Evening: '🌙',
-};
+import { FiPhone } from 'react-icons/fi';
 
 function parseDistance(distanceText) {
   if (!distanceText) return { value: '—', unit: 'miles' };
@@ -66,8 +60,47 @@ function SurveyorCard({ surveyor, isNearest, onSelect }) {
       onClick={onSelect}
     >
       <div className="card-layout">
-        {/* Left Side: Animated Rotating Green Circle & Postcode Route */}
-        <div className="card-left-col">
+        {/* Left Side: Surveyor Details */}
+        <div className="card-main-col">
+          <div className="card-badges-inline">
+            {isNearest && <span className="nearest-badge">⭐ Nearest</span>}
+            <span className={`status ${isAvailable ? 'available' : 'unavailable'}`}>
+              {isAvailable ? 'Available' : 'Unavailable'}
+            </span>
+          </div>
+
+          <h3 className="card-surveyor-name">{name}</h3>
+
+          <a
+            className="card-phone"
+            href={telHref}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <FiPhone aria-hidden="true" />
+            {phone}
+          </a>
+
+          <div className="card-schedule-info">
+            <div className="card-schedule-row" title={`Available: ${availableDays.join(', ')}`}>
+              <span className="schedule-text">{formatDaysSummary(availableDays)}</span>
+            </div>
+
+            {timeSlots.length > 0 && (
+              <div className="card-schedule-row">
+                <div className="card-slot-pills">
+                  {timeSlots.map((slot) => (
+                    <span key={slot} className="card-slot-badge">
+                      {slot}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Side: Animated Rotating Green Circle & Postcode Route */}
+        <div className="card-side-col">
           <div className="rotating-circle-wrapper" title={`Distance: ${distanceText || 'Calculating'}`}>
             <div className="spinning-outer-ring" aria-hidden="true" />
             <div className="circle-inner-core">
@@ -96,52 +129,6 @@ function SurveyorCard({ surveyor, isNearest, onSelect }) {
               <div className="postcode-step surveyor-step" title={`Surveyor: ${surveyorPostcode}`}>
                 <span className="postcode-tag-label">SURVEYOR</span>
                 <span className="postcode-tag-code">{surveyorPostcode}</span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Right Side: Surveyor Details */}
-        <div className="card-right-col">
-          <div className="card-badges-inline">
-            {isNearest && <span className="nearest-badge">⭐ Nearest</span>}
-            <span className={`status ${isAvailable ? 'available' : 'unavailable'}`}>
-              {isAvailable ? 'Available' : 'Unavailable'}
-            </span>
-          </div>
-
-          <h3 className="card-surveyor-name">{name}</h3>
-
-          <a
-            className="card-phone"
-            href={telHref}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <FiPhone aria-hidden="true" />
-            {phone}
-          </a>
-
-          <p className="card-address">
-            <FiMapPin aria-hidden="true" />
-            <span>{address}</span>
-          </p>
-
-          <div className="card-schedule-info">
-            <div className="card-schedule-row" title={`Available: ${availableDays.join(', ')}`}>
-              <FiCalendar className="schedule-icon" aria-hidden="true" />
-              <span className="schedule-text">{formatDaysSummary(availableDays)}</span>
-            </div>
-
-            {timeSlots.length > 0 && (
-              <div className="card-schedule-row">
-                <FiClock className="schedule-icon" aria-hidden="true" />
-                <div className="card-slot-pills">
-                  {timeSlots.map((slot) => (
-                    <span key={slot} className="card-slot-badge">
-                      {SLOT_ICONS[slot] || ''} {slot}
-                    </span>
-                  ))}
-                </div>
               </div>
             )}
           </div>

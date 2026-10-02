@@ -1,9 +1,3 @@
-const SLOT_ICONS = {
-  Morning: '🌅',
-  Afternoon: '☀️',
-  Evening: '🌙',
-};
-
 function ViewSurveyorModal({ surveyor, onClose }) {
   const areas = Array.isArray(surveyor.areas) ? surveyor.areas : [];
   const days = Array.isArray(surveyor.availableDays) ? surveyor.availableDays : [];
@@ -73,7 +67,7 @@ function ViewSurveyorModal({ surveyor, onClose }) {
                 <div className="slots-chip-list">
                   {slots.map((slot) => (
                     <span key={slot} className="slot-chip">
-                      {SLOT_ICONS[slot] || '⏱️'} {slot}
+                      {slot}
                     </span>
                   ))}
                 </div>
