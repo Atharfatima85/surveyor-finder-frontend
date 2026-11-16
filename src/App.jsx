@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FiLogOut, FiUser } from 'react-icons/fi';
 import Sidebar from './components/Sidebar';
 import SearchBar from './components/SearchBar';
 import ScheduleFilters from './components/ScheduleFilters';
@@ -7,11 +8,19 @@ import SurveyorCard from './components/SurveyorCard';
 import AddSurveyorModal from './components/modals/AddSurveyorModal';
 import EditSurveyorModal from './components/modals/EditSurveyorModal';
 import ViewSurveyorModal from './components/modals/ViewSurveyorModal';
+import LoginPage from './components/LoginPage';
 import './App.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return (
+      localStorage.getItem('surveyor_auth') === 'true' ||
+      sessionStorage.getItem('surveyor_auth') === 'true'
+    );
+  });
+
   const [allSurveyors, setAllSurveyors] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -44,8 +53,22 @@ function App() {
   };
 
   useEffect(() => {
-    fetchSurveyors();
-  }, []);
+    if (isAuthenticated) {
+      fetchSurveyors();
+    }
+  }, [isAuthenticated]);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('surveyor_auth');
+    localStorage.removeItem('surveyor_user_email');
+    sessionStorage.removeItem('surveyor_auth');
+    sessionStorage.removeItem('surveyor_user_email');
+    setIsAuthenticated(false);
+  };
 
   const handleSearch = async () => {
     const query = searchQuery.trim();
@@ -183,6 +206,11 @@ function App() {
     return true;
   });
 
+  // Render Login Page if not authenticated
+  if (!isAuthenticated) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
+
   return (
     <div className="app-shell">
       {sidebarOpen && (
@@ -207,19 +235,38 @@ function App() {
         onEdit={handleEdit}
         onDelete={handleDelete}
         onToggleActive={handleToggleActive}
+        onLogout={handleLogout}
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
 
       <div className="main-panel">
         <header className="hero">
-          <button
-            type="button"
-            className="menu-toggle"
-            onClick={() => setSidebarOpen(true)}
-          >
-            Menu
-          </button>
+          <div className="hero-top-bar">
+            <button
+              type="button"
+              className="menu-toggle"
+              onClick={() => setSidebarOpen(true)}
+            >
+              Menu
+            </button>
+            <div className="hero-user-badge">
+              <span className="hero-user-avatar">
+                <FiUser aria-hidden="true" />
+              </span>
+              <span className="hero-user-email">atharfatima85@gmail.com</span>
+              <button
+                type="button"
+                className="btn-hero-logout"
+                onClick={handleLogout}
+                title="Sign out of your account"
+              >
+                <FiLogOut aria-hidden="true" />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+
           <p className="eyebrow">London RICS surveyors</p>
           <h1>Find a surveyor near your property</h1>
           <p className="lede">
@@ -275,7 +322,11 @@ function App() {
 
               {filteredResults.length === 0 ? (
                 <div className="empty-state">
-                  <p>No surveyors match the selected schedule filter ({selectedDay !== 'all' ? selectedDay : ''} {selectedShift !== 'all' ? selectedShift : ''}).</p>
+                  <p>
+                    No surveyors match the selected schedule filter (
+                    {selectedDay !== 'all' ? selectedDay : ''}{' '}
+                    {selectedShift !== 'all' ? selectedShift : ''}).
+                  </p>
                   <button
                     type="button"
                     className="reset-filter-btn"
@@ -293,7 +344,11 @@ function App() {
                     <SurveyorCard
                       key={surveyor._id}
                       surveyor={surveyor}
-                      isNearest={index === 0 && selectedDay === 'all' && selectedShift === 'all'}
+                      isNearest={
+                        index === 0 &&
+                        selectedDay === 'all' &&
+                        selectedShift === 'all'
+                      }
                       onSelect={() => setSelectedId(surveyor._id)}
                     />
                   ))}

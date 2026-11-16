@@ -1,3 +1,5 @@
+import { FiLogOut, FiUser } from 'react-icons/fi';
+
 function Sidebar({
   surveyors,
   loading,
@@ -8,6 +10,7 @@ function Sidebar({
   onEdit,
   onDelete,
   onToggleActive,
+  onLogout,
   open,
   onClose,
 }) {
@@ -100,6 +103,22 @@ function Sidebar({
             </article>
           );
         })}
+      </div>
+
+      <div className="sidebar-footer">
+        <div className="sidebar-user-info">
+          <FiUser className="sidebar-user-icon" aria-hidden="true" />
+          <span className="sidebar-user-email">atharfatima85@gmail.com</span>
+        </div>
+        <button
+          type="button"
+          className="btn-sidebar-logout"
+          onClick={onLogout}
+          title="Sign out of your account"
+        >
+          <FiLogOut aria-hidden="true" />
+          <span>Sign Out</span>
+        </button>
       </div>
     </aside>
   );
